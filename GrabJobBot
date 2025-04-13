@@ -1,0 +1,31 @@
+from flask import Flask, render_template, request
+
+app = Flask(__name__)
+
+# Chatbot logic (similar to the one from before)
+def chatbot_response(user_input):
+    if user_input == '1':
+        return "🔍 Let's talk job search strategy! Focus on internships, entry-level roles, or jobs that value skills over GPA."
+    elif user_input == '2':
+        return "📝 Resume Tips: Highlight your skills and projects, not just GPA. Use action words: 'created', 'organized', 'led'."
+    elif user_input == '3':
+        return "💬 Interview Practice: Can you explain your academic performance? Sample answer: 'While my GPA isn't high, I've developed strong skills through hands-on experience.'"
+    elif user_input == '4':
+        return "🧠 Confidence Boost: Your GPA doesn't define you. Many successful professionals had low GPAs. Keep pushing!"
+    elif user_input == '5':
+        return "👋 Goodbye! Keep believing in yourself and go get that job!"
+    else:
+        return "Invalid choice. Please enter a number from 1 to 5."
+
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+@app.route('/chat', methods=['POST'])
+def chat():
+    user_input = request.form['user_input']
+    response = chatbot_response(user_input)
+    return render_template('index.html', user_input=user_input, response=response)
+
+if __name__ == "__main__":
+    app.run(debug=True)
